@@ -18,7 +18,8 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({ children, variant = 'notice', isVisible = false, handleDismiss }) {
+function Toast({ children, variant = 'notice', handleDismiss = () => {} }) {
+  const [isVisible, setIsVisible] = React.useState(true);
   if (!Object.keys(ICONS_BY_VARIANT).includes(variant)) {
     throw Error(`Invalid variant: ${variant}`);
   }
@@ -33,7 +34,10 @@ function Toast({ children, variant = 'notice', isVisible = false, handleDismiss 
       <p className={styles.content}>
         {children}
       </p>
-      <button className={styles.closeButton} onClick={handleDismiss}>
+      <button className={styles.closeButton} onClick={() => {
+        handleDismiss();
+        setIsVisible(!isVisible)
+      }}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
