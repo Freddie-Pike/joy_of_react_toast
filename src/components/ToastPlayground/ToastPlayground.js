@@ -13,6 +13,13 @@ function ToastPlayground() {
   const [toastVariant, setToastVariant] = React.useState(VARIANT_OPTIONS[0]);
   const [toastList, setToastList] = React.useState([]);
 
+  console.log(toastList);
+
+  const handleDismiss = (id) => {
+    const newToastList = toastList;
+    setToastList(newToastList.filter((toast) => toast.id !== id));
+  }
+
 
   return (
     <div className={styles.wrapper}>
@@ -21,13 +28,12 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf toasts={toastList} />
+      <ToastShelf toasts={toastList} handleDismiss={handleDismiss} />
 
       <form onSubmit={(event) => {
         event.preventDefault();
-        const newToastList = toastList;
-        newToastList.push(<Toast id={crypto.randomUUID()} variant={toastVariant}>{message}</Toast>);
-        setToastList([...newToastList]);
+        setToastList([...toastList, { id: crypto.randomUUID(), variant: toastVariant, message }]);
+
         setToastVariant(VARIANT_OPTIONS[0]);
         setMessage('');
 
@@ -68,8 +74,6 @@ function ToastPlayground() {
                   {variant}
                 </label>
               ))}
-
-              {/* TODO Other Variant radio buttons here */}
             </div>
           </div>
 
