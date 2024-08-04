@@ -9,11 +9,15 @@ function ToastProvider({ children }) {
     setToastList(newToastList.filter((toast) => toast.id !== id));
   }
 
+  const removeAllToasts = () => {
+    setToastList([])
+  }
+
   const createToast = ({ variant, message }) => {
     setToastList([...toastList, { id: crypto.randomUUID(), variant, message }]);
   }
 
-  return <ToastContext.Provider value={{ toastList, handleDismiss, createToast }}>{children}</ToastContext.Provider>;
+  return <ToastContext.Provider value={{ toastList, handleDismiss, createToast, removeAllToasts }}>{children}</ToastContext.Provider>;
 }
 
 export default ToastProvider;
